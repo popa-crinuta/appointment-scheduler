@@ -1,0 +1,6 @@
+# Fișiere create automat de sistemul de operare și de editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+*.log
