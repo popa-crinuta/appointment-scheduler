@@ -5,7 +5,8 @@ Aplicație web pentru programări online la un cabinet de cardiologie. Pacienți
 > Proiect universitar, Universitatea Politehnica Timișoara — tema „AppointmentScheduler” (nivel Începător).
 > Toate datele din aplicație sunt fictive (Cabinetul de cardiologie Tilia, Târgu Jiu).
 
-**Site publicat:** `https://<utilizator>.github.io/appointment-scheduler/` *(se completează după activarea GitHub Pages)*
+**Site publicat:** https://popa-crinuta.github.io/appointment-scheduler/  
+**Repository:** https://github.com/popa-crinuta/appointment-scheduler
 
 ## Stadiul proiectului
 
@@ -66,7 +67,7 @@ Proiectul este format din pagini statice, deci nu are nevoie de instalări. Boot
 
 ### Varianta 1 — Visual Studio Code + Live Server (recomandat)
 
-1. Descarcă proiectul: `git clone https://github.com/<utilizator>/appointment-scheduler.git`
+1. Descarcă proiectul: `git clone https://github.com/<popa-crinuta>/appointment-scheduler.git`
    (sau, pe GitHub: **Code → Download ZIP**, apoi dezarhivează).
 2. Deschide folderul în Visual Studio Code (**File → Open Folder**).
 3. Instalează extensia **Live Server** (autor: Ritwick Dey).
