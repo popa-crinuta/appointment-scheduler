@@ -1,0 +1,1332 @@
+/* ==========================================================================
+   AppointmentScheduler — css/style.css
+   Stilurile proprii ale aplicației. Fișierul se încarcă DUPĂ Bootstrap,
+   așa că regulile de aici pot suprascrie stilurile implicite ale acestuia.
+
+   Cuprins
+   1.  Variabile: paleta de culori și fonturile
+   2.  Elemente de bază
+   3.  Butoane și formulare
+   4.  Antet și meniu
+   5.  Hero și căutarea rapidă (pagina Acasă)
+   6.  Secțiuni, carduri și pași
+   7.  Intervale orare și stări
+   8.  Pagini interioare: antet de pagină, bară laterală, panouri, tabele
+   9.  Subsol
+   10. Responsive: tabletă și telefon
+   11. Accesibilitate
+   ========================================================================== */
+
+
+/* 1. Variabile ------------------------------------------------------------- */
+:root {
+  /* Paleta aplicației (5 culori) */
+  --as-primary: #0F766E;  /* verde-albastru: butoane, linkuri, elemente active */
+  --as-accent: #F59E0B;   /* chihlimbar: evidențieri, numerele pașilor */
+  --as-dark: #1E293B;     /* textul principal și subsolul */
+  --as-soft: #F0FDFA;     /* fundalul secțiunilor alternative */
+  --as-muted: #64748B;    /* text secundar */
+
+  /* Nuanțe derivate din culorile de mai sus (hover, fundaluri foarte deschise) */
+  --as-primary-dark: #115E59;
+  --as-primary-subtle: #CCFBF1;
+  --as-accent-light: #FBBF24;
+  --as-accent-subtle: #FEF3C7;
+  --as-line: rgba(30, 41, 59, 0.08);   /* linii și borduri discrete */
+
+  /* Fonturile */
+  --as-font-heading: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --as-font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+
+  /* Valori folosite în mai multe locuri */
+  --as-radius: 0.875rem;
+  --as-shadow: 0 0.75rem 2rem rgba(30, 41, 59, 0.08);
+  --as-header-height: 4.5rem;
+
+  /* Legăm paleta de variabilele Bootstrap, ca și componentele lui să o folosească */
+  --bs-primary: var(--as-primary);
+  --bs-primary-rgb: 15, 118, 110;
+  --bs-primary-text-emphasis: var(--as-primary-dark);
+  --bs-primary-bg-subtle: var(--as-primary-subtle);
+  --bs-body-font-family: var(--as-font-body);
+  --bs-body-color: var(--as-dark);
+  --bs-body-color-rgb: 30, 41, 59;
+  --bs-emphasis-color: var(--as-dark);
+  --bs-emphasis-color-rgb: 30, 41, 59;
+  --bs-secondary-color: var(--as-muted);
+  --bs-link-color: var(--as-primary);
+  --bs-link-color-rgb: 15, 118, 110;
+  --bs-link-hover-color: var(--as-primary-dark);
+  --bs-link-hover-color-rgb: 17, 94, 89;
+  --bs-border-radius: 0.625rem;
+  --bs-border-radius-lg: var(--as-radius);
+  --bs-focus-ring-color: rgba(15, 118, 110, 0.25);
+}
+
+
+/* 2. Elemente de bază ------------------------------------------------------ */
+body {
+  font-family: var(--as-font-body);
+  color: var(--as-dark);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: var(--as-font-heading);
+  font-weight: 600;
+  color: var(--as-dark);
+}
+
+a {
+  text-underline-offset: 0.2em;
+}
+
+/* Când sărim la o secțiune (#id), antetul fix nu trebuie să o acopere */
+main[id],
+section[id],
+.panel[id] {
+  scroll-margin-top: calc(var(--as-header-height) + 1rem);
+}
+
+
+/* 3. Butoane și formulare -------------------------------------------------- */
+.btn {
+  font-weight: 500;
+}
+
+/* Bootstrap colorează butoanele prin variabile; le dăm culorile din paletă */
+.btn-primary {
+  --bs-btn-bg: var(--as-primary);
+  --bs-btn-border-color: var(--as-primary);
+  --bs-btn-hover-bg: var(--as-primary-dark);
+  --bs-btn-hover-border-color: var(--as-primary-dark);
+  --bs-btn-active-bg: var(--as-primary-dark);
+  --bs-btn-active-border-color: var(--as-primary-dark);
+  --bs-btn-disabled-bg: var(--as-primary);
+  --bs-btn-disabled-border-color: var(--as-primary);
+  --bs-btn-focus-shadow-rgb: 15, 118, 110;
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--as-primary);
+  --bs-btn-border-color: var(--as-primary);
+  --bs-btn-hover-color: #FFFFFF;
+  --bs-btn-hover-bg: var(--as-primary);
+  --bs-btn-hover-border-color: var(--as-primary);
+  --bs-btn-active-color: #FFFFFF;
+  --bs-btn-active-bg: var(--as-primary-dark);
+  --bs-btn-active-border-color: var(--as-primary-dark);
+  --bs-btn-focus-shadow-rgb: 15, 118, 110;
+}
+
+/* Buton propriu, în culoarea de accent (text închis, pentru contrast bun) */
+.btn-accent {
+  --bs-btn-color: var(--as-dark);
+  --bs-btn-bg: var(--as-accent);
+  --bs-btn-border-color: var(--as-accent);
+  --bs-btn-hover-color: var(--as-dark);
+  --bs-btn-hover-bg: var(--as-accent-light);
+  --bs-btn-hover-border-color: var(--as-accent-light);
+  --bs-btn-active-color: var(--as-dark);
+  --bs-btn-active-bg: var(--as-accent-light);
+  --bs-btn-active-border-color: var(--as-accent-light);
+  --bs-btn-focus-shadow-rgb: 245, 158, 11;
+  font-weight: 600;
+}
+
+.btn-lg {
+  --bs-btn-padding-x: 1.4rem;
+  --bs-btn-font-size: 1.05rem;
+}
+
+.form-label {
+  font-weight: 500;
+}
+
+/* <legend> are implicit un font mare (din Bootstrap); îl aducem la mărimea etichetelor */
+legend.form-label {
+  font-size: 1rem;
+}
+
+/* Conturul câmpurilor active, în culoarea primară */
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+  border-color: var(--as-primary);
+  box-shadow: 0 0 0 0.25rem rgba(15, 118, 110, 0.2);
+}
+
+.form-check-input:checked {
+  background-color: var(--as-primary);
+  border-color: var(--as-primary);
+}
+
+.form-range::-webkit-slider-thumb {
+  background-color: var(--as-primary);
+}
+
+.form-range::-moz-range-thumb {
+  background-color: var(--as-primary);
+}
+
+/* Tab-urile din pagina Autentificare */
+.nav-pills {
+  --bs-nav-pills-link-active-bg: var(--as-primary);
+  --bs-nav-link-color: var(--as-dark);
+  --bs-nav-link-hover-color: var(--as-primary);
+}
+
+
+/* 4. Antet și meniu -------------------------------------------------------- */
+.site-header {
+  background-color: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--as-line);
+}
+
+.site-header .navbar {
+  min-height: var(--as-header-height);
+  --bs-navbar-color: var(--as-dark);
+  --bs-navbar-hover-color: var(--as-primary);
+  --bs-navbar-active-color: var(--as-primary);
+  --bs-navbar-nav-link-padding-x: 0.85rem;
+}
+
+.navbar-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--as-font-heading);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--as-dark);
+}
+
+.navbar-brand:hover,
+.navbar-brand:focus {
+  color: var(--as-dark);
+}
+
+.brand-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.6rem;
+  background-color: var(--as-primary);
+  color: #FFFFFF;
+  font-size: 1.1rem;
+}
+
+.brand-accent {
+  color: var(--as-primary);
+}
+
+.site-header .nav-link {
+  font-weight: 500;
+}
+
+/* Conturul butonului „hamburger” după apăsare, în culoarea primară */
+.navbar-toggler:focus {
+  box-shadow: 0 0 0 0.2rem rgba(15, 118, 110, 0.25);
+}
+
+.site-header .nav-link.active {
+  font-weight: 600;
+}
+
+/* Pe desktop, pagina curentă este subliniată cu o bară colorată */
+@media (min-width: 992px) {
+  .site-header .nav-link {
+    position: relative;
+  }
+
+  .site-header .nav-link.active::after {
+    content: "";
+    position: absolute;
+    left: var(--bs-navbar-nav-link-padding-x);
+    right: var(--bs-navbar-nav-link-padding-x);
+    bottom: 0;
+    height: 3px;
+    border-radius: 3px;
+    background-color: var(--as-primary);
+  }
+}
+
+
+/* 5. Hero și căutarea rapidă (pagina Acasă) -------------------------------- */
+.hero {
+  padding: 4rem 0 4.5rem;
+  background:
+    radial-gradient(60rem 30rem at 90% -10%, rgba(15, 118, 110, 0.12), transparent 60%),
+    linear-gradient(180deg, var(--as-soft) 0%, #FFFFFF 100%);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  background-color: var(--as-primary-subtle);
+  color: var(--as-primary-dark);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+/* clamp(minim, preferat, maxim): titlul crește lin odată cu lățimea ecranului */
+.hero-title {
+  margin-bottom: 1rem;
+  font-size: clamp(2rem, 1.35rem + 2.6vw, 3.25rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.hero-lead {
+  max-width: 34rem;
+  margin-bottom: 1.75rem;
+  color: var(--as-muted);
+  font-size: 1.125rem;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.hero-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  margin: 1.75rem 0 0;
+  padding: 0;
+  list-style: none;
+  color: var(--as-muted);
+  font-size: 0.95rem;
+}
+
+.hero-facts i {
+  margin-right: 0.3rem;
+  color: var(--as-primary);
+}
+
+.search-card {
+  border: 0;
+  border-radius: var(--as-radius);
+  box-shadow: var(--as-shadow);
+}
+
+.search-card .card-body {
+  padding: 1.75rem;
+}
+
+.card-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.card-heading i {
+  color: var(--as-primary);
+}
+
+.slots-heading {
+  margin: 1.75rem 0 0.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--as-line);
+  color: var(--as-muted);
+  font-family: var(--as-font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.slot-list {
+  margin: 0;
+}
+
+.slot-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0;
+}
+
+.slot-item + .slot-item {
+  border-top: 1px dashed rgba(30, 41, 59, 0.12);
+}
+
+.slot-info {
+  flex: 1;
+  min-width: 0;
+  line-height: 1.3;
+}
+
+.slot-info small {
+  display: block;
+  color: var(--as-muted);
+}
+
+
+/* 6. Secțiuni, carduri și pași --------------------------------------------- */
+.section {
+  padding: 4.5rem 0;
+}
+
+.section-alt {
+  background-color: var(--as-soft);
+}
+
+.section-head {
+  margin-bottom: 2rem;
+}
+
+.section-title {
+  margin-bottom: 0.5rem;
+  font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2.1rem);
+  font-weight: 700;
+}
+
+.section-lead {
+  margin-bottom: 0;
+  color: var(--as-muted);
+  font-size: 1.05rem;
+}
+
+/* Banda cu cifre de sub hero */
+.stats-bar {
+  padding: 2rem 0;
+  border-top: 1px solid var(--as-line);
+  border-bottom: 1px solid var(--as-line);
+  background-color: #FFFFFF;
+}
+
+.stat-number {
+  margin: 0;
+  color: var(--as-primary);
+  font-family: var(--as-font-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.stat-label {
+  margin: 0;
+  color: var(--as-muted);
+  font-size: 0.95rem;
+}
+
+/* Cerc colorat în care stă o pictogramă */
+.icon-circle {
+  display: inline-grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: var(--as-primary-subtle);
+  color: var(--as-primary);
+  font-size: 1.35rem;
+}
+
+.icon-circle-sm {
+  width: 2.25rem;
+  height: 2.25rem;
+  font-size: 1rem;
+}
+
+/* Pașii din „Cum funcționează” */
+.steps {
+  margin: 0;
+  padding: 0;
+}
+
+.step-card {
+  height: 100%;
+  padding: 1.75rem;
+  border: 1px solid var(--as-line);
+  border-radius: var(--as-radius);
+  background-color: #FFFFFF;
+}
+
+.step-number {
+  display: inline-grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-bottom: 1rem;
+  border-radius: 50%;
+  background-color: var(--as-accent);
+  color: var(--as-dark);
+  font-family: var(--as-font-heading);
+  font-weight: 700;
+}
+
+.step-card p {
+  margin: 0;
+  color: var(--as-muted);
+}
+
+/* Cardurile serviciilor */
+.card-serviciu {
+  border: 1px solid var(--as-line);
+  border-radius: var(--as-radius);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-serviciu:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--as-shadow);
+}
+
+.card-serviciu .card-body {
+  padding: 1.5rem;
+}
+
+.card-serviciu .icon-circle {
+  margin-bottom: 1rem;
+}
+
+.card-serviciu .card-text {
+  color: var(--as-muted);
+}
+
+.card-meta {
+  margin: 0;
+  color: var(--as-muted);
+  font-size: 0.9rem;
+}
+
+.card-meta i {
+  margin-right: 0.25rem;
+  color: var(--as-primary);
+}
+
+.card-serviciu .card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--as-line);
+  background-color: transparent;
+}
+
+.price {
+  color: var(--as-muted);
+  font-size: 0.95rem;
+}
+
+.price strong {
+  color: var(--as-dark);
+  font-size: 1.05rem;
+}
+
+/* Prețul afișat pe cardurile din pagina Servicii */
+.price-tag {
+  margin: 0;
+  color: var(--as-dark);
+  font-family: var(--as-font-heading);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+/* Antetul unui card de serviciu: pictograma lângă denumire (pagina Servicii) */
+.serviciu-head {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.card-serviciu .serviciu-head .icon-circle {
+  margin-bottom: 0;
+}
+
+/* Lista de servicii și prețuri dintr-un card */
+.service-list {
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+  font-size: 0.92rem;
+}
+
+.service-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px dashed rgba(30, 41, 59, 0.12);
+}
+
+.service-list strong {
+  white-space: nowrap;
+}
+
+/* Acordeonul cu întrebări frecvente */
+.accordion {
+  --bs-accordion-border-color: var(--as-line);
+  --bs-accordion-border-radius: var(--as-radius);
+  --bs-accordion-inner-border-radius: calc(var(--as-radius) - 1px);
+  --bs-accordion-active-color: var(--as-primary-dark);
+  --bs-accordion-active-bg: var(--as-soft);
+  --bs-accordion-btn-focus-box-shadow: 0 0 0 0.25rem rgba(15, 118, 110, 0.2);
+  --bs-accordion-btn-active-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23115E59' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='M2 5L8 11L14 5'/%3e%3c/svg%3e");
+}
+
+.accordion-button {
+  font-weight: 600;
+}
+
+/* Banda colorată pentru administratori */
+.cta-band {
+  padding: 3rem 0;
+  background-color: var(--as-primary);
+  color: #FFFFFF;
+}
+
+.cta-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.cta-band h2 {
+  margin-bottom: 0.35rem;
+  color: #FFFFFF;
+}
+
+.cta-band p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+
+/* 7. Intervale orare și stări ---------------------------------------------- */
+/* Un interval liber, afișat ca o „pastilă” pe care se poate da click */
+.slot-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.35rem 0.8rem;
+  border: 1px solid var(--as-primary);
+  border-radius: 999px;
+  color: var(--as-primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.slot-chip:hover,
+.slot-chip:focus-visible {
+  background-color: var(--as-primary);
+  color: #FFFFFF;
+}
+
+.slot-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.slots-label {
+  margin: 1rem 0 0.5rem;
+  color: var(--as-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Intervalele din formularul de programare (butoane radio stilizate) */
+.slot-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+}
+
+.btn-slot {
+  --bs-btn-color: var(--as-primary);
+  --bs-btn-border-color: rgba(15, 118, 110, 0.4);
+  --bs-btn-hover-color: var(--as-primary-dark);
+  --bs-btn-hover-bg: var(--as-soft);
+  --bs-btn-hover-border-color: var(--as-primary);
+  --bs-btn-active-color: #FFFFFF;
+  --bs-btn-active-bg: var(--as-primary);
+  --bs-btn-active-border-color: var(--as-primary);
+  --bs-btn-disabled-color: var(--as-muted);
+  --bs-btn-disabled-bg: transparent;
+  --bs-btn-disabled-border-color: rgba(30, 41, 59, 0.12);
+  font-weight: 600;
+}
+
+.btn-check:disabled + .btn-slot {
+  text-decoration: line-through;
+}
+
+/* Mesajul de eroare ocupă toată lățimea grilei de intervale */
+.slot-grid .invalid-feedback {
+  grid-column: 1 / -1;
+}
+
+/* Insignele de stare: programări și intervale */
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status::before {
+  content: "";
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background-color: currentColor;
+}
+
+.status-confirmata,
+.status-liber {
+  background-color: var(--as-primary-subtle);
+  color: var(--as-primary-dark);
+}
+
+.status-asteptare,
+.status-rezervat {
+  background-color: var(--as-accent-subtle);
+  color: #92400E;
+}
+
+.status-anulata,
+.status-blocat {
+  background-color: #F1F5F9;
+  color: var(--as-muted);
+}
+
+.status-finalizata {
+  background-color: #E2E8F0;
+  color: var(--as-dark);
+}
+
+
+/* 8. Pagini interioare ----------------------------------------------------- */
+/* Antetul paginii: firul de navigare (breadcrumb), titlul și descrierea */
+.page-header {
+  padding: 2.5rem 0 2rem;
+  border-bottom: 1px solid var(--as-line);
+  background: linear-gradient(180deg, var(--as-soft), #FFFFFF);
+}
+
+.page-header h1 {
+  margin-bottom: 0.35rem;
+  font-size: clamp(1.75rem, 1.4rem + 1.4vw, 2.4rem);
+  font-weight: 700;
+}
+
+.page-header .lead {
+  margin: 0;
+  color: var(--as-muted);
+  font-size: 1.05rem;
+}
+
+.breadcrumb {
+  --bs-breadcrumb-margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.page-body {
+  padding: 2.5rem 0 4rem;
+}
+
+/* Bara laterală */
+.sidebar-card {
+  padding: 1.25rem;
+  border: 1px solid var(--as-line);
+  border-radius: var(--as-radius);
+  background-color: #FFFFFF;
+}
+
+.sidebar-title {
+  display: block;
+  margin-bottom: 0.75rem;
+  color: var(--as-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.filter-group {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.filter-group + .filter-group {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--as-line);
+}
+
+.side-nav .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 0.5rem;
+  color: var(--as-dark);
+  font-weight: 500;
+}
+
+.side-nav .nav-link:hover {
+  background-color: var(--as-soft);
+  color: var(--as-primary-dark);
+}
+
+.side-nav .nav-link.active {
+  background-color: var(--as-primary);
+  color: #FFFFFF;
+}
+
+.side-nav .nav-link.disabled {
+  color: var(--as-muted);
+}
+
+/* Bara cu numărul de rezultate și sortarea (pagina Servicii) */
+.results-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Panouri: casete albe cu titlu, folosite în paginile de cont și administrare */
+.panel {
+  border: 1px solid var(--as-line);
+  border-radius: var(--as-radius);
+  background-color: #FFFFFF;
+}
+
+.panel + .panel {
+  margin-top: 1.5rem;
+}
+
+.panel-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--as-line);
+}
+
+.panel-head h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.panel-body {
+  padding: 1.25rem;
+}
+
+.panel-foot {
+  padding: 0.85rem 1.25rem;
+  border-top: 1px solid var(--as-line);
+  color: var(--as-muted);
+  font-size: 0.9rem;
+}
+
+/* Tabele */
+.table-app {
+  --bs-table-hover-bg: var(--as-soft);
+  margin: 0;
+}
+
+.table-app th {
+  background-color: #F8FAFC;
+  color: var(--as-muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.table-app th,
+.table-app td {
+  padding: 0.85rem 1.25rem;
+  vertical-align: middle;
+}
+
+.table-app small {
+  display: block;
+  color: var(--as-muted);
+}
+
+.table-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.35rem;
+}
+
+/* Indicatori (pagina Administrare și Programările mele) */
+.kpi-card {
+  height: 100%;
+  padding: 1.25rem;
+  border: 1px solid var(--as-line);
+  border-radius: var(--as-radius);
+  background-color: #FFFFFF;
+}
+
+.kpi-label {
+  margin: 0 0 0.35rem;
+  color: var(--as-muted);
+  font-size: 0.9rem;
+}
+
+.kpi-value {
+  margin: 0;
+  font-family: var(--as-font-heading);
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.kpi-note {
+  margin: 0.35rem 0 0;
+  color: var(--as-muted);
+  font-size: 0.85rem;
+}
+
+/* Bara gradului de ocupare: elementul HTML <progress>, colorat cu accent-color */
+progress.ocupare {
+  display: block;
+  width: 100%;
+  height: 0.5rem;
+  margin-top: 0.6rem;
+  accent-color: var(--as-primary);
+}
+
+.side-nav .badge {
+  font-weight: 500;
+}
+
+.admin-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Pașii programării (pagina Programare) */
+.stepper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stepper li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--as-muted);
+  font-weight: 500;
+}
+
+.stepper li + li::before {
+  content: "";
+  width: 1.5rem;
+  height: 2px;
+  background-color: rgba(30, 41, 59, 0.15);
+}
+
+.stepper .num,
+.form-section-title .num {
+  display: inline-grid;
+  place-items: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border: 2px solid rgba(30, 41, 59, 0.2);
+  border-radius: 50%;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.stepper .current {
+  color: var(--as-dark);
+}
+
+.stepper .current .num,
+.form-section-title .num {
+  border-color: var(--as-primary);
+  background-color: var(--as-primary);
+  color: #FFFFFF;
+}
+
+.form-section + .form-section {
+  margin-top: 1.75rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--as-line);
+}
+
+.form-section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+  font-size: 1.15rem;
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--as-line);
+}
+
+/* Rezumatul programării: perechi „etichetă — valoare” */
+.summary-list {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.6rem 1rem;
+  margin: 0;
+}
+
+.summary-list dt {
+  color: var(--as-muted);
+  font-weight: 500;
+}
+
+.summary-list dd {
+  margin: 0;
+  font-weight: 600;
+  text-align: right;
+}
+
+.info-box {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+  padding: 0.85rem 1rem;
+  border-radius: 0.6rem;
+  background-color: var(--as-soft);
+  color: var(--as-primary-dark);
+  font-size: 0.9rem;
+}
+
+/* Medicul afișat în formularul de programare */
+.medic-box {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.45rem 0.85rem;
+  border: 1px solid var(--as-line);
+  border-radius: 0.6rem;
+  background-color: var(--as-soft);
+  line-height: 1.25;
+}
+
+.medic-box small {
+  display: block;
+  color: var(--as-muted);
+}
+
+/* Profilul pacientului */
+.avatar {
+  display: inline-grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background-color: var(--as-primary);
+  color: #FFFFFF;
+  font-family: var(--as-font-heading);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.avatar-sm {
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 0.95rem;
+}
+
+.profile-card {
+  text-align: center;
+}
+
+.profile-card .avatar {
+  margin-bottom: 0.75rem;
+}
+
+/* Pagina Autentificare */
+.auth-section {
+  padding: 3rem 0 4rem;
+  background: linear-gradient(180deg, var(--as-soft), #FFFFFF 70%);
+}
+
+.auth-card {
+  border: 0;
+  border-radius: var(--as-radius);
+  box-shadow: var(--as-shadow);
+}
+
+.auth-card .card-body {
+  padding: 2rem;
+}
+
+.auth-tabs {
+  margin: 1.25rem 0 1.5rem;
+  padding: 0.3rem;
+  border-radius: 0.75rem;
+  background-color: #F1F5F9;
+}
+
+.auth-aside {
+  height: 100%;
+  padding: 2.25rem;
+  border-radius: var(--as-radius);
+  background-color: var(--as-primary);
+  color: #FFFFFF;
+}
+
+.auth-aside h2 {
+  color: #FFFFFF;
+}
+
+.auth-benefits {
+  margin: 1.5rem 0;
+  padding: 0;
+  list-style: none;
+}
+
+.auth-benefits li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.auth-benefits i {
+  color: var(--as-accent);
+  font-size: 1.2rem;
+  line-height: 1.3;
+}
+
+.auth-note {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+}
+
+
+/* 9. Subsol ---------------------------------------------------------------- */
+.site-footer {
+  padding: 3.5rem 0 1.5rem;
+  background-color: var(--as-dark);
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.95rem;
+}
+
+.footer-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  color: #FFFFFF;
+  font-family: var(--as-font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.footer-brand i,
+.footer-links i {
+  color: var(--as-accent);
+}
+
+.footer-text {
+  max-width: 22rem;
+}
+
+.footer-title {
+  margin-bottom: 0.85rem;
+  color: #FFFFFF;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.footer-links {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer-links li {
+  margin-bottom: 0.45rem;
+}
+
+.footer-links i {
+  margin-right: 0.4rem;
+}
+
+.site-footer a {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+}
+
+.site-footer a:hover,
+.site-footer a:focus-visible {
+  color: #FFFFFF;
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 0.875rem;
+}
+
+.footer-bottom p {
+  margin: 0;
+}
+
+
+/* 10. Responsive ----------------------------------------------------------- */
+/* Bootstrap face grila responsive; aici ajustăm doar ce ține de stilurile noastre. */
+
+/* Desktop (de la 992 px): bara laterală rămâne vizibilă la derularea paginii */
+@media (min-width: 992px) {
+  .sidebar-sticky {
+    position: sticky;
+    top: calc(var(--as-header-height) + 1rem);
+  }
+}
+
+/* Tabletă și telefon (sub 992 px): meniul se pliază sub butonul „hamburger” */
+@media (max-width: 991.98px) {
+  .site-header .navbar-collapse {
+    padding: 0.5rem 0 1rem;
+  }
+
+  .site-header .nav-link {
+    border-bottom: 1px solid var(--as-line);
+  }
+
+  .site-header .nav-link.active {
+    color: var(--as-primary);
+  }
+
+  .btn-account {
+    width: 100%;
+    margin-top: 0.75rem;
+  }
+
+  .hero {
+    padding: 2.5rem 0 3rem;
+  }
+
+  .section {
+    padding: 3.5rem 0;
+  }
+
+  /* Bara laterală devine panou glisant (offcanvas); butonul care o deschide */
+  .sidebar-toggle {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Telefon (sub 576 px) */
+@media (max-width: 575.98px) {
+  .hero-actions .btn,
+  .cta-inner .btn {
+    width: 100%;
+  }
+
+  .search-card .card-body,
+  .auth-card .card-body {
+    padding: 1.25rem;
+  }
+
+  .section {
+    padding: 3rem 0;
+  }
+
+  .stat-number {
+    font-size: 1.6rem;
+  }
+
+  .slot-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Pașii programării se așază pe două rânduri, fără liniile de legătură */
+  .stepper li + li::before {
+    display: none;
+  }
+
+  /* Tabelele nu se mai înghesuie: rândurile rămân întregi, iar tabelul se derulează lateral */
+  .table-app th,
+  .table-app td {
+    padding: 0.7rem 0.9rem;
+    white-space: nowrap;
+  }
+}
+
+
+/* 11. Accesibilitate ------------------------------------------------------- */
+/* Linkul „Sari la conținut” apare în colțul paginii când primește focus */
+.skip-link {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 2000;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  background-color: var(--as-dark);
+  color: #FFFFFF;
+}
+
+/* Contur vizibil pentru linkuri la navigarea cu tastatura */
+a:not(.btn):focus-visible {
+  outline: 3px solid var(--as-accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Utilizatorii care au cerut mai puține animații nu le primesc */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
