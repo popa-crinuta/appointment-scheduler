@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <!-- viewport: pagina se adaptează la lățimea ecranului (obligatoriu pentru design responsive) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Serviciile Cabinetului de cardiologie Tilia: consultații și investigații, cu durată, preț și intervalele libere de azi.">
+  <title>Servicii și prețuri — AppointmentScheduler</title>
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+
+  <!-- 1. Bootstrap 5.3.8 (framework-ul CSS), încărcat prin CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <!-- 2. Bootstrap Icons (pictogramele) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+        integrity="sha384-CK2SzKma4jA5H/MXDUU7i1TqZlCFaD4T01vtyDFvPlD97JQyS+IsSh1nI2EFbpyk" crossorigin="anonymous">
+  <!-- 3. Fonturile: Poppins pentru titluri, Inter pentru text (Google Fonts) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap">
+  <!-- 4. Stilurile proprii: ultimele, ca să poată suprascrie stilurile Bootstrap -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Link vizibil doar la navigarea cu tastatura: sare direct la conținut -->
+  <a class="visually-hidden-focusable skip-link" href="#continut">Sari la conținutul principal</a>
+
+  <!-- ============================ ANTET ȘI MENIU (comun tuturor paginilor) ============================ -->
+  <header class="site-header sticky-top">
+    <nav class="navbar navbar-expand-lg" aria-label="Meniul principal">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">
+          <i class="bi bi-calendar2-check brand-icon" aria-hidden="true"></i>
+          <span>Appointment<span class="brand-accent">Scheduler</span></span>
+        </a>
+        <!-- Butonul „hamburger”: apare doar pe ecrane mai înguste de 992 px -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#meniu-principal"
+                aria-controls="meniu-principal" aria-expanded="false" aria-label="Deschide meniul">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="meniu-principal">
+          <ul class="navbar-nav mx-lg-auto">
+            <li class="nav-item"><a class="nav-link" href="index.html">Acasă</a></li>
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="servicii.html">Servicii</a></li>
+            <li class="nav-item"><a class="nav-link" href="programare.html">Programează-te</a></li>
+            <li class="nav-item"><a class="nav-link" href="programarile-mele.html">Programările mele</a></li>
+            <li class="nav-item"><a class="nav-link" href="admin.html">Administrare</a></li>
+          </ul>
+          <a class="btn btn-outline-primary btn-account" href="autentificare.html">
+            <i class="bi bi-person-circle" aria-hidden="true"></i> Autentificare
+          </a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="continut">
+    <!-- Antetul paginii: firul de navigare, titlul și descrierea -->
+    <section class="page-header" aria-labelledby="titlu-pagina">
+      <div class="container">
+        <nav aria-label="Fir de navigare">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Acasă</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Servicii</li>
+          </ol>
+        </nav>
+        <h1 id="titlu-pagina">Servicii și prețuri</h1>
+        <p class="lead">Alege consultația sau investigația, vezi durata, prețul și intervalele libere de azi.</p>
+      </div>
+    </section>
+
+    <div class="page-body">
+      <div class="container">
+        <div class="row g-4">
+
+          <!-- ============ BARA LATERALĂ: filtrele (pe telefon devin un panou glisant) ============ -->
+          <aside class="col-lg-3" aria-label="Filtre">
+            <button class="btn btn-outline-primary w-100 d-lg-none sidebar-toggle" type="button"
+                    data-bs-toggle="offcanvas" data-bs-target="#filtre" aria-controls="filtre">
+              <i class="bi bi-funnel" aria-hidden="true"></i> Filtrează serviciile
+            </button>
+            <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="filtre">
+              <div class="offcanvas-header">
+                <h2 class="offcanvas-title h5" id="titlu-filtre">Filtre</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#filtre" aria-label="Închide filtrele"></button>
+              </div>
+              <div class="offcanvas-body">
+                <!-- În Etapa 1 filtrele doar reîncarcă pagina; filtrarea reală vine odată cu baza de date -->
+                <form class="sidebar-card sidebar-sticky w-100" action="servicii.html" method="get">
+                  <div class="filter-group">
+                    <label for="cauta" class="sidebar-title">Caută</label>
+                    <input type="search" id="cauta" name="q" class="form-control" placeholder="De exemplu: EKG">
+                  </div>
+                  <fieldset class="filter-group">
+                    <legend class="sidebar-title">Tipul serviciului</legend>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" id="f-consultatii" name="categorie" value="consultatii"><label class="form-check-label" for="f-consultatii">Consultații</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" id="f-investigatii" name="categorie" value="investigatii"><label class="form-check-label" for="f-investigatii">Investigații</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" id="f-monitorizare" name="categorie" value="monitorizare"><label class="form-check-label" for="f-monitorizare">Monitorizare</label></div>
+                  </fieldset>
+                  <div class="filter-group">
+                    <label for="f-zi" class="sidebar-title">Ziua</label>
+                    <select id="f-zi" name="zi" class="form-select">
+                      <option value="oricand">Oricând</option>
+                      <option value="azi" selected>Azi</option>
+                      <option value="maine">Mâine</option>
+                      <option value="saptamana">Săptămâna aceasta</option>
+                    </select>
+                  </div>
+                  <fieldset class="filter-group">
+                    <legend class="sidebar-title">Momentul zilei</legend>
+                    <div class="form-check"><input class="form-check-input" type="radio" id="m-oricand" name="moment" value="oricand" checked><label class="form-check-label" for="m-oricand">Oricând</label></div>
+                    <div class="form-check"><input class="form-check-input" type="radio" id="m-dimineata" name="moment" value="dimineata"><label class="form-check-label" for="m-dimineata">Dimineața (09–12)</label></div>
+                    <div class="form-check"><input class="form-check-input" type="radio" id="m-dupa-amiaza" name="moment" value="dupa-amiaza"><label class="form-check-label" for="m-dupa-amiaza">După-amiaza (12–17)</label></div>
+                  </fieldset>
+                  <div class="filter-group">
+                    <label for="f-pret" class="sidebar-title">Preț maxim</label>
+                    <input type="range" class="form-range" id="f-pret" name="pret" min="100" max="400" step="10" value="400" data-afisare="valoare-pret">
+                    <p class="small mb-0">până la <output id="valoare-pret" for="f-pret">400</output> lei</p>
+                  </div>
+                  <div class="filter-group d-grid gap-2">
+                    <button type="submit" class="btn btn-primary">Aplică filtrele</button>
+                    <button type="reset" class="btn btn-outline-secondary">Resetează</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </aside>
+
+          <!-- ============ ZONA PRINCIPALĂ: rezultatele ============ -->
+          <div class="col-lg-9">
+            <div class="results-bar">
+              <p class="mb-0"><strong>6 servicii</strong> · Dr. Ioana Stan, medic primar cardiologie</p>
+              <div class="d-flex align-items-center gap-2">
+                <label for="sortare" class="small text-body-secondary text-nowrap">Sortează după</label>
+                <select id="sortare" name="sortare" class="form-select form-select-sm">
+                  <option value="interval">Primul interval liber</option>
+                  <option value="pret">Preț crescător</option>
+                  <option value="durata">Durată</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Grila de carduri: 1 coloană pe telefon, 2 pe tabletă, 3 pe ecrane foarte late -->
+            <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+              <div class="col">
+                <article class="card card-serviciu h-100">
+                  <div class="card-body">
+                    <div class="serviciu-head">
+                      <span class="icon-circle"><i class="bi bi-heart-pulse" aria-hidden="true"></i></span>
+                      <div>
+                        <h2 class="h5 mb-0">Consultație cardiologică</h2>
+                        <small class="text-body-secondary">30 de minute</small>
+                      </div>
+                    </div>
+                    <p class="card-text">Evaluarea simptomelor, a tensiunii arteriale și a tratamentului, cu recomandări scrise.</p>
+                    <p class="price-tag">250 lei</p>
+                    <p class="slots-label">Libere azi</p>
+                    <div class="slot-row">
+                      <a class="slot-chip" href="programare.html?serviciu=consultatie">11:30</a>
+                      <a class="slot-chip" href="programare.html?serviciu=consultatie">14:00</a>
+                      <a class="slot-chip" href="programare.html?serviciu=consultatie">15:30</a>
+                    </div>
+                  </div>
+                  <div class="card-footer">
+                    <a class="btn btn-primary w-100" href="programare.html?serviciu=consultatie">Programează-te</a>
+                  </div>
+                </article>
+              </div>
+              <div class="col">
+                <article class="card card-serviciu h-100">
+                  <div class="card-body">
+                    <div class="serviciu-head">
+                      <span class="icon-circle"><i class="bi bi-activity" aria-hidden="true"></i></span>
+                      <div>
+                        <h2 class="h5 mb-0">Consultație + EKG</h2>
+                        <small class="text-body-secondary">40 de minute</small>
+                      </div>
+                    </div>
+                    <p class="card-text">Consultația, împreună cu electrocardiograma interpretată pe loc.</p>
+                    <p class="price-tag">300 lei</p>
+                    <p class="slots-label">Libere azi</p>
+                    <div class="slot-row">
+                      <a class="slot-chip" href="programare.html?serviciu=consultatie-ekg">14:00</a>
+                      <a class="slot-chip" href="programare.html?serviciu=consultatie-ekg">15:30</a>
+                    </div>
+                  </div>
+                  <div class="card-footer">
+                    <a class="btn btn-primary w-100" href="programare.html?serviciu=consultatie-ekg">Programează-te</a>
+                  </div>
+                </article>
+              </div>
+              <div class="col">
+                <article class="card card-serviciu h-100">
+                  <div class="card-body">
+                    <div class="serviciu-head">
+                      <span class="icon-circle"><i class="bi bi-soundwave" aria-hidden="true"></i></span>
+                      <div>
+                        <h2 class="h5 mb-0">Ecografie cardiacă</h2>
+                        <small class="text-body-secondary">30 de minute</small>
+                      </div>
+                    </div>
+                    <p class="card-text">Imaginea în timp real a inimii și a valvelor, cu raport scris.</p>
+                    <p class="price-tag">300 lei</p>
+                    <p class="slots-label">Libere azi</p>
+                    <div class="slot-row">
+                      <a class="slot-chip" href="programare.html?serviciu=ecografie">11:30</a>
+                      <a class="slot-chip" href="programare.html?serviciu=ecografie">14:00</a>
+                    </div>
+                  </div>
+                  <div class="card-footer">
+                    <a class="btn btn-primary w-100" href="programare.html?serviciu=ecografie">Programează-te</a>
+                  </div>
+                </article>
+              </div>
+              <div class="col">
+                <article class="card card-serviciu h-100">
+                  <div class="card-body">
+                    <div class="serviciu-head">
+                      <span class="icon-circle"><i class="bi bi-clock-history" aria-hidden="true"></i></span>
+                      <div>
+                        <h2 class="h5 mb-0">Holter EKG 24 h</h2>
+                        <small class="text-body-secondary">15 minute (montare)</small>
+                      </div>
+                    </div>
+                    <p class="card-text">Monitorizarea ritmului inimii timp de 24 de ore; aparatul se montează la cabinet.</p>
+                    <p class="price-tag">350 lei</p>
+                    <p class="slots-label">Libere azi</p>
+                    <div class="slot-row">
+                      <a class="slot-chip" href="programare.html?serviciu=holter">11:30</a>
+                      <a class="slot-chip" href="programare.html?serviciu=holter">14:00</a>
+                      <a class="slot-chip" href="programare.html?serviciu=holter">16:30</a>
+                    </div>
+                  </div>
+                  <div class="card-footer">
+                    <a class="btn btn-primary w-100" href="programare.html?serviciu=holter">Programează-te</a>
+                  </div>
+                </article>
+              </div>
+              <div class="col">
+                <article class="card card-serviciu h-100">
+                  <div class="card-body">
+                    <div class="serviciu-head">
+                      <span class="icon-circle"><i class="bi bi-person-walking" aria-hidden="true"></i></span>
+                      <div>
+                        <h2 class="h5 mb-0">Test de efort</h2>
+                        <small class="text-body-secondary">45 de minute</small>
+                      </div>
+                    </div>
+                    <p class="card-text">EKG înregistrat în timpul efortului pe bandă, sub supravegherea medicului.</p>
+                    <p class="price-tag">400 lei</p>
+                    <p class="slots-label">Libere azi</p>
+                    <p class="small text-body-secondary mb-2">Azi nu mai sunt intervale de 45 de minute.</p>
+                    <div class="slot-row">
+                      <a class="slot-chip" href="programare.html?serviciu=test-efort">Mâine, 09:00</a>
+                    </div>
+                  </div>
+                  <div class="card-footer">
+                    <a class="btn btn-primary w-100" href="programare.html?serviciu=test-efort">Programează-te</a>
+                  </div>
+                </article>
+              </div>
+              <div class="col">
+                <article class="card card-serviciu h-100">
+                  <div class="card-body">
+                    <div class="serviciu-head">
+                      <span class="icon-circle"><i class="bi bi-clipboard2-pulse" aria-hidden="true"></i></span>
+                      <div>
+                        <h2 class="h5 mb-0">Control</h2>
+                        <small class="text-body-secondary">20 de minute</small>
+                      </div>
+                    </div>
+                    <p class="card-text">Reevaluare în cel mult 30 de zile după consultație, cu ajustarea tratamentului.</p>
+                    <p class="price-tag">150 lei</p>
+                    <p class="slots-label">Libere azi</p>
+                    <div class="slot-row">
+                      <a class="slot-chip" href="programare.html?serviciu=control">11:30</a>
+                      <a class="slot-chip" href="programare.html?serviciu=control">15:30</a>
+                      <a class="slot-chip" href="programare.html?serviciu=control">16:30</a>
+                    </div>
+                  </div>
+                  <div class="card-footer">
+                    <a class="btn btn-primary w-100" href="programare.html?serviciu=control">Programează-te</a>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ============================ SUBSOL (comun tuturor paginilor) ============================ -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <a class="footer-brand" href="index.html"><i class="bi bi-calendar2-check" aria-hidden="true"></i> AppointmentScheduler</a>
+          <p class="footer-text">Programări online la Cabinetul de cardiologie Tilia din Târgu Jiu.</p>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+          <h2 class="footer-title">Pagini</h2>
+          <ul class="footer-links">
+            <li><a href="index.html">Acasă</a></li>
+            <li><a href="servicii.html">Servicii</a></li>
+            <li><a href="programare.html">Programează-te</a></li>
+            <li><a href="programarile-mele.html">Programările mele</a></li>
+            <li><a href="autentificare.html">Autentificare</a></li>
+            <li><a href="admin.html">Administrare</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-4 col-lg-3">
+          <h2 class="footer-title">Program</h2>
+          <ul class="footer-links">
+            <li>Luni–Vineri: <span class="text-nowrap">09:00–17:00</span></li>
+            <li>Sâmbătă–Duminică: închis</li>
+          </ul>
+        </div>
+        <div class="col-md-4 col-lg-3">
+          <h2 class="footer-title">Contact</h2>
+          <ul class="footer-links">
+            <li><i class="bi bi-geo-alt" aria-hidden="true"></i> Str. Teilor nr. 12, Târgu Jiu</li>
+            <li><i class="bi bi-telephone" aria-hidden="true"></i> <a href="tel:0253000000">0253&nbsp;000&nbsp;000</a></li>
+            <li class="text-break"><i class="bi bi-envelope" aria-hidden="true"></i> <a href="mailto:programari@cabinet-tilia.example">programari@cabinet-tilia.example</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© <span data-an-curent>2026</span> AppointmentScheduler · Proiect universitar — toate datele sunt fictive.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript: Bootstrap (meniu, acordeon, tab-uri, ferestre modale) + scriptul propriu -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
